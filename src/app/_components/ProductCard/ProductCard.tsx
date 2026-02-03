@@ -15,7 +15,7 @@ import Image from "next/image";
 
 export function ProductCard({product}: {product: Product}) {
   return (
-    <Card className="relative cursor-pointer mx-auto w-full sm:max-w-sm pt-0 rounded-2xl overflow-hidden gap-0">
+    <Card className="relative cursor-pointer mx-auto w-full sm:max-w-sm pt-0 rounded-2xl  gap-0">
       <Link href={`/productdetails/${product._id}`} >
         <Image
         src={product.imageCover}
@@ -23,15 +23,15 @@ export function ProductCard({product}: {product: Product}) {
         width={400}
         height={300}
         // loading="lazy" 
-        className="object-cover aspect-square text-center mx-auto"
+        className="object-cover aspect-square text-center mx-auto rounded-t-2xl"
       />
-      <CardHeader className="pt-2">
-          <div className="flex items-center justify-between w-full ">
+      <CardHeader className="pt-2 w-full">
+          <div className="flex items-center justify-between">
             <Badge variant="secondary" className="text-xs px-2 py-1">
               <svg className="w-5 h-5 text-yellow-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="currentColor" viewBox="0 0 24 24"><path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" /></svg>
               {product.ratingsAverage} out of 5 ({product.ratingsQuantity})
             </Badge>
-            <div className="relative h-6 overflow-hidden w-32">
+            {/* <div className="relative h-6 overflow-hidden">
             <ul 
             className={product.priceAfterDiscount !== undefined && product.quantity !== undefined && product.quantity < 100 ?
              'text-right animate-scroll-up space-y-1' 
@@ -58,13 +58,13 @@ export function ProductCard({product}: {product: Product}) {
                 </li>
               )}
             </ul>
-            </div>
+            </div> */}
           </div>
       </CardHeader >
       <CardAction  className="absolute px-2.5 w-full top-2.5 right-0 left-0 flex items-center justify-between">
         {product.priceAfterDiscount !== undefined && product.priceAfterDiscount < product.price &&
           <Badge
-          className="px-3 bg-green-50 text-green-800 border border-primary">On Sale!</Badge>
+          className="px-3 bg-green-50 text-green-800 border border-primary">{Math.round((product.priceAfterDiscount / product.price) * 100)}% OFF</Badge>
         }
       </CardAction>
       {/* content */}
@@ -84,19 +84,35 @@ export function ProductCard({product}: {product: Product}) {
          : 
          <p className="text-lg font-bold whitespace-nowrap text-right truncate"> EGP {product.price}</p>
          }
-        <div className="flex gap-2">
+        <div className="flex gap-2 relative">
          {/* add to favourite */}
-          <CardAction className="flex self-center items-center justify-center xl:absolute xl:top-68 xl:right-5">
+          <CardAction className="group flex self-center items-center justify-center font-medium">
             <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
             </svg>
+            <span className="z-100 absolute top-full left-1/2 transform -translate-x-1/2 mt-1 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+              Add WishList
+            </span>
           </CardAction>
-          <Button className="inline-flex items-center  text-white bg-primary hover:bg-green-900 cursor-pointer focus:ring-4 focus:ring-brand-medium shadow-xs font-medium rounded-base text-sm px-3 py-2 focus:outline-none">
-          <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" /></svg>
-          Add to cart
+          <Button className="flex items-center text-white bg-green-600 hover:bg-gray-200 group cursor-pointer focus:ring-4 focus:ring-brand-medium shadow-xs font-medium rounded-lg text-md px-3 py-2 focus:outline-none">
+          <svg 
+            className="w-6 h-6 group-hover:text-green-600 transition-colors" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+            />
+          </svg>
+          <span className="z-100 absolute top-full left-1/2 transform -translate-x-1/2 mt-1 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+            Add To Cart
+          </span>
         </Button>
         </div>
-        
       </CardFooter>
     </Card>
   )

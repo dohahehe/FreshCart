@@ -1,4 +1,3 @@
-
 import { ProductCard } from "./_components/ProductCard/ProductCard";
 import {  Product } from "./types/productInterface";
 
@@ -15,7 +14,7 @@ export default async function Home() {
   
   return (
    <>
-    <div className="mx-auto container max-w-7xl py-6 gap-5 grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="mx-auto container px-4 py-6 gap-5 grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
       {
         allProducts.map((product) => <ProductCard key={product._id} product={product}/>)
       }
