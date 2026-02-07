@@ -1,107 +1,268 @@
+'use client'
+import AddToCartBtn from "@/app/_components/AddToCartBtn/AddToCartBtn";
+import Error from "@/app/_components/Error/Error";
 import ProductsSlider from "@/app/_components/ProductsSlider/ProductsSlider";
-import { Product } from "@/app/types/productInterface";
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import Loader from "@/Loader/Loader";
+import getProductDetails from "@/services/products/getProductDetails";
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 
-type myProps = {
-  params:{
-    id: string
-  }
-}
+export default function ProductDetails() {
+  const params = useParams();
+  let id = params.id as string;
 
-export default async function ProductDetails(props: myProps) {
-  let {id} = await props.params;
+ 
+  // Fetch ProductDetails
+  const { data: singleProduct, isLoading: productLoading, isError } = useQuery({
+    queryKey: ['produt', id],
+    queryFn: () => getProductDetails(id),
+    refetchOnMount: 'always',
+  })
 
-  let response = await fetch(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
-  let {data: singleProduct}: {data: Product} = await response.json();
-  console.log(singleProduct);
-    
+  if(productLoading) return <Loader />
+
+  if(isError) return <Error />
   
   return (
-    <div className="mx-auto container max-w-7xl py-6 grid md:grid-cols-3 items-center gap-5">
-      {/* image carousel */}
-      <div className="md:col-span-1 justify-center items-center">
-        <ProductsSlider images={singleProduct?.images} />
-      </div>
-      {/* card */}
-      <div className="md:col-span-2 items-center">
-        <Card className="relative mx-auto w-full px-4 py-6 rounded-2xl overflow-hidden gap-4">
-          <CardHeader>
-              <div className="flex items-center justify-between w-full ">
-                <Badge variant="secondary" className="text-xs px-2 py-1">
-                  <svg className="w-5 h-5 text-yellow-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="currentColor" viewBox="0 0 24 24"><path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" /></svg>
-                  {singleProduct?.ratingsAverage} out of 5 ({singleProduct?.ratingsQuantity})
+    <div className="min-h-screen mx-auto">
+      
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+          
+          {/* Image Gallery */}
+          <div className="space-y-4">
+
+            <div className="overflow-hidden">
+              <ProductsSlider images={singleProduct?.images} />
+            </div>
+
+            
+          </div>
+
+          {/* Product Details*/}
+          <div>
+            {/* Product Header */}
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-4">
+                <Badge variant="secondary" className="px-3 py-1.5 bg-linear-to-br from-yellow-100 to-amber-100 border-yellow-200">
+                  <div className="flex items-center gap-1.5">
+                    <svg className="w-4 h-4 text-yellow-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                    </svg>
+                    <span className="text-yellow-800 font-medium">
+                      {singleProduct?.ratingsAverage} ({singleProduct?.ratingsQuantity} reviews)
+                    </span>
+                  </div>
                 </Badge>
-                <div className="relative h-6 overflow-hidden w-32">
-                <ul 
-                className={singleProduct?.priceAfterDiscount !== undefined && singleProduct?.quantity !== undefined && singleProduct?.quantity < 100 ?
-                'text-right animate-scroll-up space-y-1' 
-                :
-                'text-right space-y-1'}>
+
+                <div className="flex items-center gap-3">
                   {singleProduct?.priceAfterDiscount !== undefined && (
-                    <li className="text-sm font-medium text-green-600 whitespace-nowrap">
-                      {Math.round((singleProduct?.priceAfterDiscount / singleProduct?.price) * 100)}% OFF
-                    </li>
+                    <Badge className="px-3 py-1.5 bg-linear-to-br from-green-100 to-emerald-100 border-green-200">
+                      <span className="text-green-800 font-medium">
+                        {Math.round((singleProduct?.priceAfterDiscount / singleProduct?.price) * 100)}% OFF
+                      </span>
+                    </Badge>
                   )}
-                  {singleProduct?.quantity !== undefined && singleProduct?.quantity < 100 && (
-                    <li className="text-sm font-medium text-red-600 whitespace-nowrap">
-                      Selling Out Fast
-                    </li>
+                  {singleProduct?.quantity !== undefined && singleProduct.quantity < 100 && (
+                    <Badge className="px-3 py-1.5 bg-linear-to-br from-red-100 to-rose-100 border-red-200">
+                      <span className="text-red-800 font-medium">
+                        Selling Fast
+                      </span>
+                    </Badge>
                   )}
-                  {singleProduct?.priceAfterDiscount !== undefined && (
-                    <li className="text-sm font-medium text-green-600 whitespace-nowrap">
-                      {Math.round((singleProduct?.priceAfterDiscount / singleProduct?.price) * 100)}% OFF
-                    </li>
-                  )}
-                  {singleProduct?.quantity !== undefined && singleProduct?.quantity < 100 && (
-                    <li className="text-sm font-medium text-red-600 whitespace-nowrap">
-                      Selling Out Fast
-                    </li>
-                  )}
-                </ul>
                 </div>
               </div>
-          </CardHeader >
-          {/* content */}
-          <CardContent>
-            <CardTitle>{singleProduct.title.split(' ').slice(0,4).join(' ')} - {singleProduct.brand.name }</CardTitle>
-            <CardDescription className="pt-5 mb-2">
-            {singleProduct.description?.length 
-                ? singleProduct.description
-                : 'No description available'}
-            </CardDescription>
-          </CardContent>
-          {/* footer */}
-          <CardFooter className="flex items-center justify-between relative mt-auto">
-            {singleProduct.priceAfterDiscount !== undefined && singleProduct.priceAfterDiscount < singleProduct.price ?
-            <p className="text-xl font-bold whitespace-nowrap text-right truncate">EGP  {singleProduct.priceAfterDiscount} <span className="line-through text-gray-300 font-normal">{singleProduct.price}</span></p> 
-            : 
-            <p className="text-lg font-bold whitespace-nowrap text-right truncate"> EGP {singleProduct.price}</p> }
-            <div className="flex gap-5 items-center justify-center">
-              {/* add to favourite */}
-              <CardAction className="flex self-center items-center justify-center">
-                <svg className="w-6 h-6 text-black cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
-                </svg>
-              </CardAction>
-             
-              <Button className="inline-flex items-center  text-white bg-primary hover:bg-green-900 cursor-pointer focus:ring-4 focus:ring-brand-medium shadow-xs font-medium rounded-base text-sm px-3 py-2 focus:outline-none">
-                <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" /></svg>
-                Add to cart
-              </Button>
+
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                {singleProduct?.title}
+              </h1>
+              <div className="flex items-center gap-2 text-gray-600">
+                <span>Brand:</span>
+                <span className="font-medium text-gray-900">{singleProduct?.brand?.name}</span>
+                <span className="mx-2">•</span>
+                <span>Category:</span>
+                <Link 
+                  href={`/category/${singleProduct?.category?._id}`}
+                  className="font-medium text-green-600 hover:text-green-700 transition-colors"
+                >
+                  {singleProduct?.category?.name}
+                </Link>
+              </div>
             </div>
-          </CardFooter>
-        </Card>
+
+            {/* Product Description */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 bg-linear-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center">
+                  <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold text-gray-900">Product Description</h3>
+              </div>
+              
+              <p className="text-gray-600 leading-relaxed">
+                {singleProduct?.description?.length 
+                  ? singleProduct.description
+                  : 'No detailed description available for this product.'}
+              </p>
+
+              
+            </div>
+
+            {/* Pricing & Actions */}
+            <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
+              <div className="space-y-6">
+                {/* Price Display */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-600 mb-1">Price</h3>
+                    <div className="flex items-center gap-3">
+                      <span className="text-3xl font-bold text-gray-900">
+                        EGP {singleProduct?.priceAfterDiscount || singleProduct?.price}
+                      </span>
+                      {singleProduct?.priceAfterDiscount && singleProduct.priceAfterDiscount < singleProduct.price && (
+                        <span className="text-lg text-gray-400 line-through">
+                          EGP {singleProduct.price}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="text-right">
+                    <div className="flex items-center gap-2 text-green-600">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="text-sm font-medium">In Stock</span>
+                    </div>
+                    {singleProduct?.quantity !== undefined && (
+                      <p className="text-xs text-gray-500 mt-1">
+                        Only {singleProduct.quantity} items left
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <AddToCartBtn 
+                      productId={singleProduct?._id}
+                    />
+                    
+                    <button className="group relative w-12 h-12 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors flex items-center justify-center">
+                      <svg className="w-6 h-6 text-gray-400 group-hover:text-red-500 transition-colors" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
+                      </svg>
+                      <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                        Add to Wishlist
+                      </span>
+                    </button>
+                  </div>
+
+                  
+                </div>
+
+                {/* Delivery Info */}
+                <div className="pt-6 border-t border-gray-100">
+                  <div className="flex items-start gap-3">
+                    <svg className="w-5 h-5 text-green-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <div>
+                      <p className="text-sm text-gray-600">
+                        Free delivery on orders over <span className="font-medium">500 EGP</span>
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Estimated delivery: 1-3 business days
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Premium Experience Section */}
+            <div className="space-y-6">
+              {/* Premium Experience Card */}
+              <div className="bg-linear-to-br from-gray-900 to-gray-800 rounded-2xl p-6 text-white">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-4">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="text-sm font-medium">Premium Experience</span>
+                </div>
+                
+                <h3 className="text-xl font-bold mb-4">
+                  Why Shop With Us
+                </h3>
+                
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center shrink-0">
+                      <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sm mb-1">Fast Shipping</h4>
+                      <p className="text-gray-300 text-xs">
+                        Free shipping on orders over 500 EGP. 1-3 business days delivery.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center shrink-0">
+                      <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sm mb-1">Secure Payment</h4>
+                      <p className="text-gray-300 text-xs">
+                        Your payments are protected with 256-bit SSL encryption.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center shrink-0">
+                      <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sm mb-1">Quality Guarantee</h4>
+                      <p className="text-gray-300 text-xs">
+                        Every product is carefully curated and quality checked by our experts.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center shrink-0">
+                      <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-sm mb-1">Easy Returns</h4>
+                      <p className="text-gray-300 text-xs">
+                        30-day return policy. No questions asked returns.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

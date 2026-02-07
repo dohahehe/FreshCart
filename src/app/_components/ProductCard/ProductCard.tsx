@@ -1,5 +1,4 @@
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardAction,
@@ -12,10 +11,11 @@ import {
 import { Product } from "@/app/types/productInterface";
 import Link from "next/link";
 import Image from "next/image";
+import AddToCartBtn from "../AddToCartBtn/AddToCartBtn";
 
 export function ProductCard({product}: {product: Product}) {
   return (
-    <Card className="relative cursor-pointer mx-auto w-full sm:max-w-sm pt-0 rounded-2xl  gap-0">
+    <Card className="relative cursor-pointer mx-auto w-full sm:max-w-sm pt-0 rounded-2xl  gap-0 border-0 bg-linear-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
       <Link href={`/productdetails/${product._id}`} >
         <Image
         src={product.imageCover}
@@ -86,7 +86,7 @@ export function ProductCard({product}: {product: Product}) {
          }
         <div className="flex gap-2 relative">
          {/* add to favourite */}
-          <CardAction className="group flex self-center items-center justify-center font-medium">
+          <CardAction className="relative group flex self-center items-center justify-center font-medium">
             <svg className="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
             </svg>
@@ -94,24 +94,7 @@ export function ProductCard({product}: {product: Product}) {
               Add WishList
             </span>
           </CardAction>
-          <Button className="flex items-center text-white bg-green-600 hover:bg-gray-200 group cursor-pointer focus:ring-4 focus:ring-brand-medium shadow-xs font-medium rounded-lg text-md px-3 py-2 focus:outline-none">
-          <svg 
-            className="w-6 h-6 group-hover:text-green-600 transition-colors" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-            />
-          </svg>
-          <span className="z-100 absolute top-full left-1/2 transform -translate-x-1/2 mt-1 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-            Add To Cart
-          </span>
-        </Button>
+          <AddToCartBtn productId={product._id} />
         </div>
       </CardFooter>
     </Card>

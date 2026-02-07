@@ -24,7 +24,7 @@ export default function ProductsSlider({images}: {images: string[]}) {
         ]}
     >
         <CarouselContent>
-            {images.map((src) => (
+            {images?.map((src) => (
             <CarouselItem key={src}>
                 <div className="p-1">
                 <Card className="flex items-center justify-center">

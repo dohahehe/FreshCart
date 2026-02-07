@@ -1,34 +1,37 @@
-export interface ProductsApiResponse {
-  results: number;
-  metadata: {
-    currentPage: number;
-    numberOfPages: number;
-    limit: number;
-    nextPage: number | null;
-  };
-  data: Product[];
-}  
+export interface CartResponse {
+  status: string
+  numOfCartItems: number
+  cartId: string
+  data: CartItem
+}
+
+export interface CartItem {
+  _id: string
+  cartOwner: string
+  products: Product[]
+  createdAt: string
+  updatedAt: string
+  __v: number
+  totalCartPrice: number
+}
 
 export interface Product {
-  sold?: number
-  images: string[]
+  count: number
+  _id: string
+  product: Product2
+  price: number
+}
+
+export interface Product2 {
   subcategory: Subcategory[]
-  ratingsQuantity: number
   _id: string
   title: string
-  slug: string
-  description: string
   quantity: number
-  price: number
   imageCover: string
   category: Category
   brand: Brand
   ratingsAverage: number
-  createdAt: string
-  updatedAt: string
   id: string
-  priceAfterDiscount?: number
-  availableColors?: any[]
 }
 
 export interface Subcategory {
