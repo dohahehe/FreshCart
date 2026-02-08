@@ -1,4 +1,5 @@
 'use client'
+import Error from "@/app/_components/Error/Error";
 import { ProductCard } from "@/app/_components/ProductCard/ProductCard";
 import { Category, Subcategory, Product } from "@/app/types/productInterface";
 import { Spinner } from "@/components/ui/spinner";
@@ -16,21 +17,21 @@ function CategoryPage() {
   const id = params.id as string
   
   // Fetch category
-  const { data: categoryData, isLoading: categoryLoading } = useQuery({
+  const { data: categoryData, isLoading: categoryLoading, isError:catIsError, error:catError } = useQuery({
     queryKey: ['category', id],
     queryFn: () => getSingleCategory(id),
     refetchOnMount: 'always',
   })
 
   // Fetch subcategories
-  const { data: subcategoriesData, isLoading: subcategoriesLoading } = useQuery({
+  const { data: subcategoriesData, isLoading: subcategoriesLoading, isError:subIsError, error:subError } = useQuery({
     queryKey: ['subcategories', id],
     queryFn: () => getSubcategories(id),
     refetchOnMount: 'always',
   })
 
   // Fetch products for category
-  const { data: products, isLoading: productsLoading } = useQuery({
+  const { data: products, isLoading: productsLoading, isError: prodIsError, error:prodError } = useQuery({
     queryKey: ['products-by-category', id],
     queryFn: () => getProductsByCategory(id),
     refetchOnMount: 'always',
@@ -45,7 +46,9 @@ function CategoryPage() {
     ? (productsList?.reduce((sum: number, product: Product) => sum + (product.ratingsAverage || 0), 0) / productsList.length).toFixed(1)
     : "4.8"
 
-  if (categoryLoading) return <Loader />
+  if (categoryLoading || subcategoriesLoading || productsLoading) return <Loader />
+
+  if (catIsError || subIsError || prodIsError) return <Error message={catError?.message || subError?.message || prodError?.message} showContactButton={false} />
   
 
   return (

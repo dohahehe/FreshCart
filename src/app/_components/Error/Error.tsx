@@ -14,8 +14,8 @@ function Error({
   showContactButton = true
 }: ErrorProps) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-gray-50 to-white px-4 mx-auto">
-      <div className="container max-w-4xl mx-auto px-4 py-8">
+    <div className="min-h-screen flex items-center justify-center px-4 mx-auto">
+      <div className="container max-w-4xl sm:min-w-lg md:min-w-2xl mx-auto px-4 py-8">
         <div className="bg-linear-to-br from-gray-50 to-white rounded-2xl border border-gray-200 p-8 shadow-sm">
           <div className="flex flex-col md:flex-row items-center gap-8">
             {/* Icon Section */}
@@ -72,15 +72,7 @@ function Error({
                   </Link>
                 )}
 
-                <button 
-                  onClick={() => window.location.reload()}
-                  className="px-6 py-3 bg-linear-to-br from-blue-50 to-white text-blue-700 border border-blue-200 rounded-lg font-medium hover:bg-blue-100 transition-colors flex items-center gap-2"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                  Try Again
-                </button>
+               
               </div>
 
               {/* Technical Details (Optional) */}

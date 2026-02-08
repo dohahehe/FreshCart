@@ -8,7 +8,7 @@ async function getProducts() {
     }
   });
   const responseData = await res.json();
-  console.log(responseData)
+  // console.log(responseData)
   return responseData.data;
 }
 

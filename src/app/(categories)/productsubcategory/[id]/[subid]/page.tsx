@@ -1,5 +1,6 @@
 'use client'
 
+import Error from "@/app/_components/Error/Error"
 import { ProductCard } from "@/app/_components/ProductCard/ProductCard"
 import { Product } from "@/app/types/productInterface"
 import Loader from "@/Loader/Loader"
@@ -15,14 +16,14 @@ function ProductSubcategory() {
   const subCatId = params.subid as string
   
   // Fetch products for category
-  const { data: productsArray, isLoading: productsLoading } = useQuery({
+  const { data: productsArray, isLoading: productsLoading, isError:prodIsError, error:prodError } = useQuery({
     queryKey: ['products-by-category', id],
     queryFn: () => getProductsByCategory(id),
     refetchOnMount: 'always',
   })
 
   // Fetch subcategory details
-  const { data: subcategory, isLoading: subLoading } = useQuery({
+  const { data: subcategory, isLoading: subLoading, isError:subIsError, error:subError } = useQuery({
     queryKey: ['subcategory', subCatId],
     queryFn: () => getSingleSubcategory(subCatId),
     refetchOnMount: 'always',
@@ -36,6 +37,8 @@ function ProductSubcategory() {
   const isLoading = productsLoading || subLoading
 
   if (isLoading) return <Loader />
+
+  if (subIsError || prodIsError) return <Error message={subError?.message || prodError?.message} showContactButton={false} />
 
   if (filteredProducts.length === 0) {
   return (

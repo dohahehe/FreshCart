@@ -1,4 +1,5 @@
 'use client'
+import Error from "@/app/_components/Error/Error";
 import { ProductCard } from "@/app/_components/ProductCard/ProductCard";
 import { Category, Product } from "@/app/types/productInterface";
 import Loader from "@/Loader/Loader";
@@ -13,14 +14,14 @@ function CategoryProductsPage() {
   const id = params.id as string
   
   // Fetch category
-  const { data: categoryData, isLoading: categoryLoading } = useQuery({
+  const { data: categoryData, isLoading: categoryLoading, isError:catIsError, error:catError } = useQuery({
     queryKey: ['category', id],
     queryFn: () => getSingleCategory(id),
     refetchOnMount: 'always',
   })
 
   // Fetch products for category
-  const { data: products, isLoading: productsLoading } = useQuery({
+  const { data: products, isLoading: productsLoading, isError:prodIsError, error:prodError } = useQuery({
     queryKey: ['products-by-category', id],
     queryFn: () => getProductsByCategory(id),
     refetchOnMount: 'always',
@@ -30,6 +31,8 @@ function CategoryProductsPage() {
   const productsList = products || []
 
   if (categoryLoading || productsLoading) return <Loader />
+
+  if (catIsError || prodIsError) return <Error message={catError?.message || prodError?.message} showContactButton={false} />
 
   // Calculate average rating
   const averageRating = productsList.length > 0

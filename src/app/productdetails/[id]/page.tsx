@@ -16,15 +16,15 @@ export default function ProductDetails() {
 
  
   // Fetch ProductDetails
-  const { data: singleProduct, isLoading: productLoading, isError } = useQuery({
-    queryKey: ['produt', id],
+  const { data: singleProduct, isLoading: productLoading, isError, error } = useQuery({
+    queryKey: ['product', id],
     queryFn: () => getProductDetails(id),
     refetchOnMount: 'always',
   })
 
   if(productLoading) return <Loader />
 
-  if(isError) return <Error />
+  if(isError) return <Error message={error.message} showContactButton={false} />
   
   return (
     <div className="min-h-screen mx-auto">

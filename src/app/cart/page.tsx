@@ -11,6 +11,7 @@ import toast from "react-hot-toast"
 import updateCartItem from "@/services/cart/update-cart"
 import emptyCart from "@/services/cart/empty-cart"
 import { useState } from "react"
+import Error from "../_components/Error/Error"
 
 export default function Cart() {  
   const queryClient = useQueryClient()
@@ -22,7 +23,6 @@ export default function Cart() {
     queryKey: ['get-cart'],
     queryFn: async () => {
       const response = await fetch('/api/cart')
-      if (!response.ok) throw new Error('Failed to fetch cart')
       return response.json()
     }
   })
@@ -79,20 +79,7 @@ export default function Cart() {
 
   if (isLoading) return <Loader />
   
-  if (isError) return (
-    <div className="w-full p-8 text-center">
-      <p className="flex gap-3 mx-auto text-center justify-center">
-        <span>
-            <svg xmlns="http://www.w3.org" width={24} height={24} viewBox="0 0 24 24" fill="none" stroke="red" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-            <circle cx={12} cy={12} r={10} />
-            <line x1={15} y1={9} x2={9} y2={15} />
-            <line x1={9} y1={9} x2={15} y2={15} />
-            </svg>
-        </span>
-        {error?.message}
-      </p>
-    </div>
-  )
+  if (isError) return <Error message={error.message} showContactButton={false} />
   
   if (!cartData || cartData?.numOfCartItems === 0) {
     return (

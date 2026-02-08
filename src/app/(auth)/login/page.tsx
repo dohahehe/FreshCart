@@ -16,7 +16,6 @@ import { useSearchParams } from "next/navigation";
 
 export default function Login() {
   const searchParams = useSearchParams();
-  // console.log(searchParams.get('callback-url'));
   const callbackUrl = searchParams.get('callback-url');
 
   const [showPass, setShowPass] = useState(false);
@@ -39,158 +38,259 @@ export default function Login() {
       callbackUrl: callbackUrl ?? '/',
       redirect: false
     });
-    console.log(res);
+    
     if (res?.ok) {
-      //home
       toast.success('Logged in successfully!');
       window.location.href = res.url || '/';
-
-    }else{
+    } else {
       toast.error('Invalid email or password');
     }
     setIsLoading(false)
   }
 
   return (
-   <div className="w-full lg:w-1/2 m-auto flex justify-center items-center px-4 md:px-10 xl:px-4">
-    <Card className="w-full sm:max-w-xl xl:max-w-2xl ">
-      <CardHeader>
-        <CardTitle className="text-xl text-gray-800 font-bold">Login Now!</CardTitle> 
-      </CardHeader>
-      <CardContent>
-        <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
-          <FieldGroup >
-            <Controller
-              name="email"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-email">
-                    Email
-                  </FieldLabel>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                      <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24"><path stroke="currentColor" strokeLinecap="round" strokeWidth={2} d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" /></svg>
-                    </div>
-                      <Input
-                        {...field}
-                        id="form-rhf-demo-email"
-                        aria-invalid={fieldState.invalid}
-                        placeholder="Example@gmail.com"
-                        className="ps-9"
-                      />                  
-                  </div>
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            <Controller
-              name="password"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-password">
-                    Password
-                  </FieldLabel>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 start-0 flex items-center ps-[.65rem] pointer-events-none">
-                      <svg 
-                        className="w-5 h-5 text-gray-500 dark:text-gray-400" 
-                        aria-hidden="true" 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        width={24} 
-                        height={24} 
-                        fill="none" 
-                        viewBox="0 0 24 24"
-                      >
-                        <path 
-                          stroke="currentColor" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round" 
-                          strokeWidth={2} 
-                          d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"
-                        />
-                      </svg>                    
-                    </div>
-                    <Input
-                      {...field}
-                      id="form-rhf-demo-password"
-                      type={showPass? 'text' : 'password' }
-                      aria-invalid={fieldState.invalid}
-                      placeholder="Enter Your Password"
-                      className="ps-9"
-                    />  
-                    <button
-                      type="button"
-                      className="absolute inset-y-0 end-0 flex items-center pe-3 cursor-pointer"
-                      onClick={() => setShowPass(!showPass)}
-                    >
-                      {showPass? (
-                        <svg 
-                          className="w-5 h-5 text-gray-500 dark:text-gray-400" 
-                          aria-hidden="true" 
-                          xmlns="http://www.w3.org/2000/svg" 
-                          width={24} 
-                          height={24} 
-                          fill="none" 
-                          viewBox="0 0 24 24"
-                        >
-                          <path 
-                            stroke="currentColor" 
-                            strokeWidth={2} 
-                            d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"
-                          />
-                          <path 
-                            stroke="currentColor" 
-                            strokeWidth={2} 
-                            d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                          />
-                        </svg>
-                      ) : (
-                        <svg 
-                          className="w-5 h-5 text-gray-500 dark:text-gray-400" 
-                          aria-hidden="true" 
-                          xmlns="http://www.w3.org/2000/svg" 
-                          width={24} 
-                          height={24} 
-                          fill="none" 
-                          viewBox="0 0 24 24"
-                        >
-                          <path 
-                            stroke="currentColor" 
-                            strokeLinecap="round" 
-                            strokeLinejoin="round" 
-                            strokeWidth={2} 
-                            d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                          />
-                        </svg>
+    <div className="min-h-screen w-full items-center justify-center px-4 py-8">
+      <div className="w-full max-w-6xl mx-auto">
+        {/* Header Section */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-br from-green-100 to-emerald-100 rounded-full mb-4">
+            <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <span className="text-sm font-medium text-green-600">Welcome Back</span>
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Sign In to Your Account</h1>
+          <p className="text-gray-600 max-w-md mx-auto">
+            Access your personalized shopping experience and manage your orders
+          </p>
+        </div>
+
+        <div className="flex flex-col lg:flex-row-reverse gap-8 items-center mx-auto">
+
+          {/* Login Form */}
+          <div className="w-full sm:w-lg mx-auto">
+            <Card className="w-full mx-auto border border-gray-200 rounded-2xl pt-0 shadow-sm overflow-hidden">
+              <div className="bg-green-600 p-6">
+                <CardTitle className="text-2xl text-white font-bold">Sign In</CardTitle>
+                <p className="text-green-100 text-sm mt-1">
+                  Enter your credentials to access your account
+                </p>
+              </div>
+              
+              <CardContent className="p-6">
+                <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
+                  <FieldGroup className="space-y-2">
+                    <Controller
+                      name="email"
+                      control={form.control}
+                      render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                          <FieldLabel htmlFor="form-rhf-demo-email" className="text-gray-900 font-medium">
+                            Email Address
+                          </FieldLabel>
+                          <div className="relative">
+                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                              <svg className="w-5 h-5 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" strokeLinecap="round" strokeWidth={2} d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+                              </svg>
+                            </div>
+                            <Input
+                              {...field}
+                              id="form-rhf-demo-email"
+                              aria-invalid={fieldState.invalid}
+                              placeholder="example@gmail.com"
+                              className="ps-10 h-12 rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500"
+                            />                  
+                          </div>
+                          {fieldState.invalid && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
                       )}
-                    </button>             
-                  </div>
-                  
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
+                    />
+                    
+                    <Controller
+                      name="password"
+                      control={form.control}
+                      render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                          <div className="flex items-center justify-between">
+                            <FieldLabel htmlFor="form-rhf-demo-password" className="text-gray-900 font-medium">
+                              Password
+                            </FieldLabel>
+                            <Link 
+                              href="/forgot-password" 
+                              className="text-sm text-green-600 hover:text-green-700 hover:underline"
+                            >
+                              Forgot password?
+                            </Link>
+                          </div>
+                          <div className="relative">
+                            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                              <svg 
+                                className="w-5 h-5 text-gray-400" 
+                                aria-hidden="true" 
+                                xmlns="http://www.w3.org/2000/svg" 
+                                width={24} 
+                                height={24} 
+                                fill="none" 
+                                viewBox="0 0 24 24"
+                              >
+                                <path 
+                                  stroke="currentColor" 
+                                  strokeLinecap="round" 
+                                  strokeLinejoin="round" 
+                                  strokeWidth={2} 
+                                  d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"
+                                />
+                              </svg>                    
+                            </div>
+                            <Input
+                              {...field}
+                              id="form-rhf-demo-password"
+                              type={showPass ? 'text' : 'password'}
+                              aria-invalid={fieldState.invalid}
+                              placeholder="Enter your password"
+                              className="ps-10 h-12 rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500"
+                            />  
+                            <button
+                              type="button"
+                              className="absolute inset-y-0 end-0 flex items-center pe-3 cursor-pointer hover:text-gray-700 transition-colors"
+                              onClick={() => setShowPass(!showPass)}
+                            >
+                              {showPass ? (
+                                <svg 
+                                  className="w-5 h-5 text-gray-500" 
+                                  aria-hidden="true" 
+                                  xmlns="http://www.w3.org/2000/svg" 
+                                  width={24} 
+                                  height={24} 
+                                  fill="none" 
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path 
+                                    stroke="currentColor" 
+                                    strokeWidth={2} 
+                                    d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"
+                                  />
+                                  <path 
+                                    stroke="currentColor" 
+                                    strokeWidth={2} 
+                                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                  />
+                                </svg>
+                              ) : (
+                                <svg 
+                                  className="w-5 h-5 text-gray-500" 
+                                  aria-hidden="true" 
+                                  xmlns="http://www.w3.org/2000/svg" 
+                                  width={24} 
+                                  height={24} 
+                                  fill="none" 
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path 
+                                    stroke="currentColor" 
+                                    strokeLinecap="round" 
+                                    strokeLinejoin="round" 
+                                    strokeWidth={2} 
+                                    d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                  />
+                                </svg>
+                              )}
+                            </button>             
+                          </div>
+                          {fieldState.invalid && (
+                            <FieldError errors={[fieldState.error]} />
+                          )}
+                        </Field>
+                      )}
+                    />
+                  </FieldGroup>
+                </form>
+              </CardContent>
+              
+              <CardFooter className="flex flex-col gap-2 p-6 pt-0">
+                <Button 
+                  disabled={isLoading} 
+                  className="w-full h-12 rounded-lg bg-green-600 hover:from-green-700 text-white font-medium cursor-pointer"
+                  type="submit" 
+                  form="form-rhf-demo"
+                >
+                  {isLoading ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      Signing In...
+                    </div>
+                  ) : (
+                    'Sign In'
                   )}
-                </Field>
-              )}
-            />
-          </FieldGroup>
-        </form>
-      </CardContent>
-      <CardFooter className="flex flex-col gap-4 pt-3">
-        <Field orientation="horizontal">
-          {/* <Button type="button" variant="outline" onClick={() => form.reset()}>
-            Reset
-          </Button> */}
-          <Button disabled={isLoading} className="w-full cursor-pointer" type="submit" form="form-rhf-demo">
-            {isLoading ? 'Logging In...' : 'Login'}
-          </Button>
-        </Field>
-        <div className="text-sm font-medium text-gray-800">Not registered? <Link href="/register" className="text-fg-brand hover:underline duration-75">Create account!</Link></div>
-      </CardFooter>
-    </Card>
-   </div>
+                </Button>
+
+                <div className="text-center pt-4 border-t border-gray-100">
+                  <p className="text-sm text-gray-600">
+                    Don't have an account?{' '}
+                    <Link 
+                      href="/register" 
+                      className="font-medium text-green-600 hover:text-green-700 hover:underline"
+                    >
+                      Create account
+                    </Link>
+                  </p>
+                </div>
+              </CardFooter>
+            </Card>
+          </div>
+
+          <div className="w-full sm:w-lg mx-auto block">
+            <div className="bg-linear-to-br from-green-50 to-emerald-50 rounded-2xl p-8 border border-green-100">
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
+                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 text-lg mb-1">Track Your Orders</h3>
+                    <p className="text-gray-600 text-sm">
+                      Monitor your purchases and delivery status in real-time
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
+                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 text-lg mb-1">Secure Account</h3>
+                    <p className="text-gray-600 text-sm">
+                      Your data is protected with industry-standard encryption
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center shrink-0">
+                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-gray-900 text-lg mb-1">Personalized Experience</h3>
+                    <p className="text-gray-600 text-sm">
+                      Get recommendations tailored to your preferences
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

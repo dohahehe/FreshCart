@@ -1,12 +1,12 @@
-import { Category } from '@/app/types/productInterface'
+import { Brand, Category } from '@/app/types/productInterface'
 import { Card, CardContent } from "@/components/ui/card"
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
-function CategoryCard({ category }: { category: Category }) {
+function BrandCard({ brand }: { brand: Brand }) {
   return (
-    <Link href={`/category/${category._id}`} className="block">
+    <Link href={`/brand/${brand._id}`} className="block">
       <Card className="group py-0 gap-0 relative overflow-hidden rounded-2xl border-0 bg-linear-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
@@ -14,8 +14,8 @@ function CategoryCard({ category }: { category: Category }) {
         {/* Image */}
         <div className="relative h-56 overflow-hidden rounded-t-2xl">
           <Image
-            src={category.image}
-            alt={category.name}
+            src={brand.image}
+            alt={brand.name}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-700"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -27,7 +27,7 @@ function CategoryCard({ category }: { category: Category }) {
         <CardContent className="p-6">
           <div className="relative">
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              {category.name}
+              {brand.name}
             </h3>
             <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
               Explore premium collection
@@ -48,4 +48,4 @@ function CategoryCard({ category }: { category: Category }) {
   )
 }
 
-export default CategoryCard
+export default BrandCard
