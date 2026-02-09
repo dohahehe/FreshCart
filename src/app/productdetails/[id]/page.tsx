@@ -1,7 +1,7 @@
 'use client'
 import AddToCartBtn from "@/app/_components/AddToCartBtn/AddToCartBtn";
 import AddToFavorites from "@/app/_components/AddToFavorites/AddToFavorites";
-import Error from "@/app/_components/Error/Error";
+import ErrorComponent from "@/app/_components/Error/Error";
 import ProductsSlider from "@/app/_components/ProductsSlider/ProductsSlider";
 import { Badge } from "@/components/ui/badge"
 import Loader from "@/Loader/Loader";
@@ -25,7 +25,7 @@ export default function ProductDetails() {
 
   if(productLoading) return <Loader />
 
-  if(isError) return <Error message={error.message} showContactButton={false} />
+  if(isError) return <ErrorComponent message={error.message} showContactButton={false} />
   
   return (
     <div className="min-h-screen mx-auto">

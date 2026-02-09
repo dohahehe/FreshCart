@@ -36,7 +36,7 @@ export default function RootLayout({
           <NextAuthprovider>
             <Toaster position="top-right"/>
             <Navbar />
-            <main className="bg-gray-50 min-h-[calc(100vh-4.5rem)] flex items-center w-full ">
+            <main className="bg-gray-50 min-h-[calc(100vh-4.5rem)] ">
               {children}
             </main>
             <Footer />

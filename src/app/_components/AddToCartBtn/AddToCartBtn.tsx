@@ -32,7 +32,7 @@ function AddToCartBtn({productId}:{productId: string}) {
         <Button
             onClick={handleAddToCart}
             disabled={isAdding}
-            className="relative flex items-center text-white bg-green-600 hover:bg-green-50 hover:text-green-600 cursor-pointer focus:ring-4 focus:ring-brand-medium shadow-xs font-medium rounded-lg text-md px-3 py-2 focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
+            className="relative flex items-center text-white bg-green-600 hover:bg-green-200 hover:text-green-600 cursor-pointer focus:ring-4 focus:ring-brand-medium shadow-xs font-medium rounded-lg text-md px-3 py-2 focus:outline-none disabled:opacity-70 disabled:cursor-not-allowed"
         >
             {isAdding ? (
                 // Loading spinner

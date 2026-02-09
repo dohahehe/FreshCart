@@ -18,7 +18,6 @@ function AddToFavorites({productId}: {productId: string}) {
     });
 
     useEffect(() => {
-        console.log('Wishlist data updated:', wishlistData);
         
         if (wishlistData?.data) {
             const wishlistProducts = wishlistData.data;
@@ -34,7 +33,7 @@ function AddToFavorites({productId}: {productId: string}) {
         }
     }, [wishlistData, productId]);
 
-    // Add to wishlist mutation
+    // Add to wishlist 
     const { mutate: addToWishlistMutate, isPending: adding } = useMutation({
         mutationFn: addToWishlist,
         onMutate: () => {
@@ -51,7 +50,7 @@ function AddToFavorites({productId}: {productId: string}) {
         }
     });
 
-    // Remove from wishlist mutation
+    // Remove from wishlist 
     const { mutate: removeFromWishlistMutate, isPending: removing } = useMutation({
         mutationFn: removeFromWishlist,
         onMutate: () => {
@@ -82,7 +81,7 @@ function AddToFavorites({productId}: {productId: string}) {
     <button
       onClick={handleWishlistToggle}
       disabled={isLoading} 
-      className="relative p-2 rounded-lg hover:bg-gray-50 transition-colors group cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+      className="relative focus:ring-4 focus:ring-brand-medium shadow-xs font-medium text-md px-3 py-2 focus:outline-none p-2 rounded-lg hover:bg-gray-200 transition-colors group cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
       aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
     >
       {isLoading ? (

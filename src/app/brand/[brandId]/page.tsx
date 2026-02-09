@@ -1,5 +1,5 @@
 'use client'
-import Error from "@/app/_components/Error/Error"
+import ErrorComponent from "@/app/_components/Error/Error"
 import { ProductCard } from "@/app/_components/ProductCard/ProductCard"
 import { Product } from "@/app/types/productInterface"
 import Loader from "@/Loader/Loader"
@@ -30,9 +30,9 @@ function BrandDetails() {
 
     if (isLoading || productsLoading) return <Loader />
 
-    if (isError) return <Error message={error.message} showContactButton={false} />
+    if (isError) return <ErrorComponent message={error.message} showContactButton={false} />
     
-    if (productsIsError) return <Error message={productsError.message} showContactButton={false} />
+    if (productsIsError) return <ErrorComponent message={productsError.message} showContactButton={false} />
 
   return (
      <div className="w-full">

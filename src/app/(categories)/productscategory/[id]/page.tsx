@@ -1,5 +1,5 @@
 'use client'
-import Error from "@/app/_components/Error/Error";
+import ErrorComponent from "@/app/_components/Error/Error";
 import { ProductCard } from "@/app/_components/ProductCard/ProductCard";
 import { Category, Product } from "@/app/types/productInterface";
 import Loader from "@/Loader/Loader";
@@ -32,7 +32,7 @@ function CategoryProductsPage() {
 
   if (categoryLoading || productsLoading) return <Loader />
 
-  if (catIsError || prodIsError) return <Error message={catError?.message || prodError?.message} showContactButton={false} />
+  if (catIsError || prodIsError) return <ErrorComponent message={catError?.message || prodError?.message} showContactButton={false} />
 
   // Calculate average rating
   const averageRating = productsList.length > 0

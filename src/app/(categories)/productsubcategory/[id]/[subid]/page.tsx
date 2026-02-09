@@ -1,6 +1,6 @@
 'use client'
 
-import Error from "@/app/_components/Error/Error"
+import ErrorComponent from "@/app/_components/Error/Error"
 import { ProductCard } from "@/app/_components/ProductCard/ProductCard"
 import { Product } from "@/app/types/productInterface"
 import Loader from "@/Loader/Loader"
@@ -38,7 +38,7 @@ function ProductSubcategory() {
 
   if (isLoading) return <Loader />
 
-  if (subIsError || prodIsError) return <Error message={subError?.message || prodError?.message} showContactButton={false} />
+  if (subIsError || prodIsError) return <ErrorComponent message={subError?.message || prodError?.message} showContactButton={false} />
 
   if (filteredProducts.length === 0) {
   return (

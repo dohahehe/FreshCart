@@ -174,7 +174,7 @@ export default function Navbar() {
                 </svg>
               </button>
 
-              {/* Categories Dropdown Menu - Same style as user dropdown */}
+              {/* Categories Dropdown */}
               {showCategoriesDropdown && (
                 <div 
                   className="absolute left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50 max-h-96 overflow-y-auto"
@@ -316,7 +316,7 @@ export default function Navbar() {
                       My Profile
                     </Link>
                     <Link 
-                      href="/orders" 
+                      href="/order-confirmation/allorders" 
                       className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-700 transition-colors cursor-pointer"
                       onClick={() => setShowUserDropdown(false)}
                     >
@@ -602,7 +602,7 @@ export default function Navbar() {
                 </Link>
                 
                 <Link 
-                  href="/orders" 
+                  href="/order-confirmation/allorders" 
                   onClick={() => setIsOpen(false)}
                   className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
                 >

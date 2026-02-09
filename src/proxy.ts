@@ -2,7 +2,7 @@ import { getToken } from "next-auth/jwt"
 import { NextRequest, NextResponse } from "next/server"
 
 const protectedPages = [
-    '/cart', '/profile', '/wishlist'
+    '/cart', '/profile', '/wishlist', '/order-confirmation/allorders', '/checkout'
 ];
 const authPages = [
     '/login', '/register'

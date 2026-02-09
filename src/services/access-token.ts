@@ -7,5 +7,7 @@ export default async function getAccessToken() {
         token: authToken,
         secret: process.env.NEXTAUTH_SECRET!
     })
+    console.log(token?.token);
+    
     return token?.token;
 }

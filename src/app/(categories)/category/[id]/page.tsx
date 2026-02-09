@@ -1,5 +1,5 @@
 'use client'
-import Error from "@/app/_components/Error/Error";
+import ErrorComponent from "@/app/_components/Error/Error";
 import { ProductCard } from "@/app/_components/ProductCard/ProductCard";
 import { Category, Subcategory, Product } from "@/app/types/productInterface";
 import { Spinner } from "@/components/ui/spinner";
@@ -40,6 +40,7 @@ function CategoryPage() {
   const category = categoryData?.data
   const subCategories = subcategoriesData?.data || []
   const productsList = products || []  
+  
 
   // Calculate average rating
   const averageRating = productsList.length > 0
@@ -48,7 +49,7 @@ function CategoryPage() {
 
   if (categoryLoading || subcategoriesLoading || productsLoading) return <Loader />
 
-  if (catIsError || subIsError || prodIsError) return <Error message={catError?.message || subError?.message || prodError?.message} showContactButton={false} />
+  if (catIsError || subIsError || prodIsError) return <ErrorComponent message={catError?.message || subError?.message || prodError?.message} showContactButton={false} />
   
 
   return (

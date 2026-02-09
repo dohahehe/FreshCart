@@ -7,7 +7,7 @@ interface ErrorProps {
   showContactButton?: boolean
 }
 
-function Error({ 
+function ErrorComponent({ 
   title = "Something went wrong", 
   message = "We encountered an error while processing your request. Please try again or contact support if the issue persists.",
   showHomeButton = true,
@@ -101,4 +101,4 @@ function Error({
   )
 }
 
-export default Error
+export default ErrorComponent

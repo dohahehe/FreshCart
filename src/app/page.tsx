@@ -4,15 +4,18 @@ import { ProductCard } from "./_components/ProductCard/ProductCard";
 import {  Product, ProductsApiResponse } from "./types/productInterface";
 import getProducts from "@/services/products/getProducts";
 import Loader from "@/Loader/Loader";
+import ErrorComponent from "./_components/Error/Error";
 
 export default function Home() {
-  const {data: allProducts, isLoading, isError} = useQuery<Product[]>({
+  const {data: allProducts, isLoading, isError, error} = useQuery<Product[]>({
     queryKey: ['get-products'],
     queryFn: getProducts,
     refetchOnMount: 'always',
   })
 
   if(isLoading) return <Loader />
+
+  if (isError) return <ErrorComponent message={error.message} showContactButton={false} />
   
   return (
    <>

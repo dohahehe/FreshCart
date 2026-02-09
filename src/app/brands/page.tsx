@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Brand } from "../types/productInterface"
 import BrandCard from "../_components/BrandCard/BrandCard"
 import Loader from "@/Loader/Loader"
-import Error from "../_components/Error/Error"
+import ErrorComponent from "../_components/Error/Error"
 
 export default function Brands() {
   const {data: brands, isLoading, isError, error} = useQuery({
@@ -14,7 +14,7 @@ export default function Brands() {
   })
 
   if(isLoading) return <Loader />
-  if(isError) return <Error message={error?.message} showContactButton={false} />
+  if(isError) return <ErrorComponent message={error?.message} showContactButton={false} />
   
   return (
     <div className="w-full">

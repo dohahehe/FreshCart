@@ -4,7 +4,7 @@ import getCategories from '@/services/categories/getCategories';
 import { useQuery } from '@tanstack/react-query';
 import { Category } from '@/app/types/productInterface';
 import Loader from '@/Loader/Loader';
-import Error from '@/app/_components/Error/Error';
+import ErrorComponent from '@/app/_components/Error/Error';
 
 function AllCategories() {
   const {data: categories, isLoading, isError, error } =  useQuery<Category[]>({
@@ -18,7 +18,7 @@ function AllCategories() {
   
   if (isLoading) return <Loader />
 
-  if (isError) return <Error message={error.message} showContactButton={false} />
+  if (isError) return <ErrorComponent message={error.message} showContactButton={false} />
    
   
   return (

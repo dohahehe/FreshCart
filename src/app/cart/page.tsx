@@ -11,7 +11,7 @@ import toast from "react-hot-toast"
 import updateCartItem from "@/services/cart/update-cart"
 import emptyCart from "@/services/cart/empty-cart"
 import { useState } from "react"
-import Error from "../_components/Error/Error"
+import ErrorComponent from "../_components/Error/Error"
 
 export default function Cart() {  
   const queryClient = useQueryClient()
@@ -79,7 +79,7 @@ export default function Cart() {
 
   if (isLoading) return <Loader />
   
-  if (isError) return <Error message={error.message} showContactButton={false} />
+  if (isError) return <ErrorComponent message={error.message} showContactButton={false} />
   
   if (!cartData || cartData?.numOfCartItems === 0) {
     return (
@@ -453,6 +453,7 @@ export default function Cart() {
                 size="lg"
                 disabled={updatingItemId !== null || removingItemId !== null}
               >
+                <Link href='/checkout'>
                 <div className="flex items-center justify-center gap-2">
                   <svg 
                     width="20" 
@@ -468,6 +469,7 @@ export default function Cart() {
                   </svg>
                   Proceed to Checkout
                 </div>
+                </Link>
               </Button>
             </div>
           </div>

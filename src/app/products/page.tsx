@@ -4,14 +4,17 @@ import { ProductCard } from "../_components/ProductCard/ProductCard";
 import { Product } from "../types/productInterface";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "@/Loader/Loader";
+import ErrorComponent from "../_components/Error/Error";
 
 export default function Products() {
-   const {data: allProducts, isLoading, isError} = useQuery<Product[]>({
+   const {data: allProducts, isLoading, isError, error} = useQuery<Product[]>({
     queryKey: ['get-products'],
     queryFn: getProducts
   })
 
   if(isLoading) return <Loader />
+
+  if (isError) return <ErrorComponent message={error.message} showContactButton={false} />
     
     return (
       <div className="w-full">
