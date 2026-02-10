@@ -24,7 +24,20 @@ export default function Brands() {
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-3">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-br from-green-100 to-emerald-100 rounded-full">
-                <span className="text-sm font-medium text-green-600">Brands</span>
+                <svg 
+                  className="w-4 h-4 text-green-600" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={1.5} 
+                    d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                  />
+                </svg>
+                <span className="text-sm font-medium text-green-600">Brands</span> 
               </div>
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">All Brands</h1>

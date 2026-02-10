@@ -30,7 +30,6 @@ export async function POST(
             );
         }
 
-        // Call external API to create cash order
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/orders/${cartId}`,
             {

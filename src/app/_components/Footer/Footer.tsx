@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Logo from '../../../../public/freshcart-logo.49f1b44d.svg'
 import getCategories from "@/services/categories/getCategories";
-import { Category } from "@/app/types/cart-response";
 import { useQuery } from "@tanstack/react-query";
 
 const socialLinks = [
@@ -30,8 +29,8 @@ const socialLinks = [
 ];
 
 const accountLinks = [
-  { name: "My Account", href: "/account" },
-  { name: "Order History", href: "/orders" },
+  { name: "My Profile", href: "/profile" },
+  { name: "Order History", href: "/order-confirmation/allorders" },
   { name: "Wishlist", href: "/wishlist" },
   { name: "Shopping Cart", href: "/cart" },
   

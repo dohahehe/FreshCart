@@ -576,7 +576,7 @@ export default function Navbar() {
             </div>
           )}
 
-          {/* User Profile / Auth (Mobile) */}
+          {/* User Profile / Auth */}
           <div className="pt-6 border-t border-gray-200">
             {status === 'authenticated' ? (
               <div className="space-y-4">
